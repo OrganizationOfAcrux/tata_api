@@ -33,8 +33,7 @@ class AuthController extends Controller
                 $user->reset_token = $resetToken;
                 $user->save();
 
-                $email = $request->email;
-                return response()->success(['reset_token' => $user->reset_token, 'email' => $email], '');
+                return response()->success(['token' => $user->reset_token], '');
             }
         } catch (\Throwable $th) {
             return response()->error('somthing went wrong ' . $th->getMessage());
