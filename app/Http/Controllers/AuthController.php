@@ -46,8 +46,9 @@ class AuthController extends Controller
         try {
             $password = $request->input('password');
             $confirmPassword = $request->input('confirm_password');
+            $resetToken =  $request->input('reset_token');
 
-            $user = User::where('email', $request->email)->first();
+            $user = User::where('reset_token', $resetToken)->first();
             if ($user) {
                 // If the user exists, reset the password
                 if ($password === $confirmPassword) {
