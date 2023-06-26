@@ -46,16 +46,17 @@ class AuthController extends Controller
         try {
             $password = $request->input('password');
             $confirmPassword = $request->input('confirm_password');
-            $resetToken =  $request->input('reset_token');
+            $resetToken = $request->input('reset_token');
 
+            // Find the user based on the given reset_token
             $user = User::where('reset_token', $resetToken)->first();
+
             if ($user) {
-                // If the user exists, reset the password
                 if ($password === $confirmPassword) {
                     $user->password = Hash::make($password);
                     $user->save();
 
-                    // Nullify the reset_token
+                    //reset_token value null after the password was reset
                     $user->reset_token = null;
                     $user->save();
 
@@ -64,11 +65,12 @@ class AuthController extends Controller
                     return response()->error('Confirm password does not match with password');
                 }
             } else {
-                return response()->error('Invalid email');
+                return response()->error('Invalid reset token');
             }
         } catch (\Throwable $th) {
             return response()->error('Something went wrong');
         }
     }
+
 
 }
