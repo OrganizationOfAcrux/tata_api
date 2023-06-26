@@ -16,7 +16,7 @@ class AuthController extends Controller
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->error('The email and password you enter is incorrect');
         } else {
-            $request->session()->put('user', $user);
+            session()->put('user', $user);
             return response()->success($user, 'login successfull');
         }
     }
@@ -36,7 +36,7 @@ class AuthController extends Controller
                 return response()->success(['token' => $user->reset_token], '');
             }
         } catch (\Throwable $th) {
-            return response()->error('somthing went wrong ' . $th->getMessage());
+            return response()->error('somthing went wrong ');
         }
     }
 
