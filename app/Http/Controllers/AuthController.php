@@ -69,6 +69,4 @@ class AuthController extends Controller
             return response()->error('Something went wrong');
         }
     }
-
-
 }

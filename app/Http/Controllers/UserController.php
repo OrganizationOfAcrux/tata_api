@@ -77,7 +77,7 @@ class UserController extends Controller
             }
             return response()->success([], $message);
         } catch (\Throwable $th) {
-            return response()->error('Something went wrong.'.$th->getMessage());
+            return response()->error('Something went wrong.');
         }
     }
 }
