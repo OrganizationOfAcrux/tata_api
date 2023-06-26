@@ -46,7 +46,7 @@ class AuthController extends Controller
         try {
             $password = $request->input('password');
             $confirmPassword = $request->input('confirm_password');
-            $resetToken = $request->input('reset_token');
+            $resetToken = $request->input('token');
 
             // Find the user based on the given reset_token
             $user = User::where('reset_token', $resetToken)->first();
@@ -54,8 +54,6 @@ class AuthController extends Controller
             if ($user) {
                 if ($password === $confirmPassword) {
                     $user->password = Hash::make($password);
-                    $user->save();
-
                     //reset_token value null after the password was reset
                     $user->reset_token = null;
                     $user->save();
