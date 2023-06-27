@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,10 +31,8 @@ Route::get('logout', function () {
 
 
 Route::resource('users', UserController::class);
+Route::resource('roles', RoleController::class);
+
 Route::post('login', [AuthController::class, 'login']);
-
-
-
-
 Route::post('forgetpassword', [AuthController::class, 'forgetPassword']);
 Route::post('resetpassword', [AuthController::class, 'resetPassword']);

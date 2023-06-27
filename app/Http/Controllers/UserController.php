@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Requesr $request)
     {
         try {
             return response()->success(User::all(), '');
@@ -71,4 +72,5 @@ class UserController extends Controller
             return response()->error('Something went wrong.');
         }
     }
+
 }
