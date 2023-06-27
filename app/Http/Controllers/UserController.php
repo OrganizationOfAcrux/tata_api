@@ -65,14 +65,8 @@ class UserController extends Controller
     public function destroy(Request $request, User $user)
     {
         try {
-            $message = 'Users deleted successfully.';
-            if ($user->id == session()->get('user')->id) {
-                $message = "You can't delete your self";
-            } else {
-                $user->delete();
-            }
-
-            return response()->success([], $message);
+            $user->delete();
+            return response()->success([], "Users deleted successfully.");
         } catch (\Throwable $th) {
             return response()->error('Something went wrong.');
         }
