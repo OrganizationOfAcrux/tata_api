@@ -61,14 +61,20 @@ class UserController extends Controller
         }
     }
 
+
     public function destroy(Request $request, User $user)
     {
         try {
-            $user->delete();
-            return response()->success('Record delete successfull');
+            $message = 'Users deleted successfully.';
+            if ($user->id == session()->get('user')->id) {
+                $message = "You can't delete your self";
+            } else {
+                $user->delete();
+            }
+
+            return response()->success([], $message);
         } catch (\Throwable $th) {
-            return response()->error('somthing went wrong');
+            return response()->error('Something went wrong.');
         }
     }
-
 }
