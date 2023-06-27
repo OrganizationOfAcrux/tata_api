@@ -64,7 +64,6 @@ class UserController extends Controller
     public function destroy(Request $request, User $user)
     {
         try {
-
             $user->delete();
             return response()->success('Record delete successfull');
         } catch (\Throwable $th) {
