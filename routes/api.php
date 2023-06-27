@@ -33,5 +33,7 @@ Route::resource('users', UserController::class);
 Route::post('login', [AuthController::class, 'login']);
 
 
+
+
 Route::post('forgetpassword', [AuthController::class, 'forgetPassword']);
 Route::post('resetpassword', [AuthController::class, 'resetPassword']);

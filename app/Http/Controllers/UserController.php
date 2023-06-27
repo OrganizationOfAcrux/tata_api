@@ -61,23 +61,15 @@ class UserController extends Controller
         }
     }
 
-    // this is the function of delete but it's the deleting multiple in the destroy funnction
-    public function destroy(Request $request)
+    public function destroy(Request $request, User $user)
     {
         try {
-            $message = 'Users deleted successfully.';
-            foreach ($request->ids as  $id) {
-                $user = User::find($id);
 
-                if ($user->id == session()->get('user')->id) {
-                    $message = "You can't delete your self";
-                } else {
-                    $user->delete();
-                }
-            }
-            return response()->success([], $message);
+            $user->delete();
+            return response()->success('Record delete successfull');
         } catch (\Throwable $th) {
-            return response()->error('Something went wrong.');
+            return response()->error('somthing went wrong');
         }
     }
+
 }
