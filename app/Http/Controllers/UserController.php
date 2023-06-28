@@ -12,9 +12,10 @@ class UserController extends Controller
     public function index(Request $request)
     {
         try {
-            return response()->success(User::all(), '');
+            $users = User::with('role')->get();
+            return response()->success($users, '');
         } catch (\Throwable $th) {
-            return response()->error('somthing went wrong');
+            return response()->error('Something went wrong: ');
         }
     }
 
@@ -32,6 +33,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         try {
+            $user->role;
             return response()->success($user, '');
         } catch (\Throwable $th) {
             return response()->error('somthing went wrong');

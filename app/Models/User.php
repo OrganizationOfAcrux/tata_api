@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Role;
 
 class User extends Authenticatable
 {
@@ -53,5 +54,12 @@ class User extends Authenticatable
     public function setFirstNameAttribute($value)
     {
         $this->attributes['first_name'] = ucfirst($value);// if u want to capital the full word and save it in the database use (strtoupper)
+    }
+
+
+    //making the connection for the role table
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Role extends Model
 {
@@ -17,5 +18,12 @@ class Role extends Model
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = ucfirst($value);// if u want to capital the full word and save it in the database use (strtoupper)
+    }
+
+
+    //making the connection for the user
+    public function user()
+    {
+        return $this->hasOne(User::class);
     }
 }
