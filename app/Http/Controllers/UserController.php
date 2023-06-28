@@ -22,17 +22,7 @@ class UserController extends Controller
     public function store(UserStoreRequest $request)
     {
         try {
-            $data = [
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'phone_number' => $request->phone_number,
-            'password' => $request->password,
-            ];
-
-            $user = User::create($data);
-            return response()->success($user, '');
+            return response()->success(User::create($request->validated()), '');
         } catch (\Throwable $th) {
             return response()->error('somthing went wrong');
         }
@@ -51,12 +41,7 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, User $user)
     {
         try {
-            $user->first_name = $request->first_name;
-            $user->last_name = $request->last_name;
-            $user->username = $request->username;
-            $user->email = $request->email;
-            $user->phone_number = $request->phone_number;
-            $user->update();
+            $user->update($request->validated());
             return response()->success($user, '');
         } catch (\Throwable $th) {
             return response()->error('somthing went wrong');
