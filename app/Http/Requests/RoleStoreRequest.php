@@ -22,7 +22,7 @@ class RoleStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:roles,name|max:20',
+            'name' => 'required|string|unique:roles,name',
             'discription' => 'nullable|string',
         ];
     }
