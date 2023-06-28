@@ -29,6 +29,7 @@ Route::get('logout', function () {
 });
 
 
+Route::get('getRole', [UserController::class, 'getRole']);
 
 Route::resource('users', UserController::class);
 Route::resource('roles', RoleController::class);

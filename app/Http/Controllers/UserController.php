@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Role;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 
@@ -60,5 +61,19 @@ class UserController extends Controller
             return response()->error('Something went wrong.');
         }
     }
+
+    //this is for get all the roles from the DB
+    public function getRole()
+    {
+        try {
+            $role = Role::all();
+            return response()->success($role, '');
+        } catch (\Throwable $th) {
+            return response()->error('Something went wrong: ');
+        }
+    }
+
+
+
 
 }
