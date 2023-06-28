@@ -29,9 +29,10 @@ Route::get('logout', function () {
 });
 
 
-Route::get('getRole', [UserController::class, 'getRole']);
 
 Route::resource('users', UserController::class);
+Route::get('roles-list-pluck', [RoleController::class, 'rolesListPluck']);
+Route::get('roles-list', [RoleController::class, 'rolesList']);
 Route::resource('roles', RoleController::class);
 
 Route::post('login', [AuthController::class, 'login']);

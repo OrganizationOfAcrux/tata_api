@@ -90,4 +90,22 @@ class RoleController extends Controller
         }
     }
 
+
+    //this is for get all the roles from the DB
+    public function rolesList()
+    {
+        try {
+            return response()->success(Role::get(['id','name']), '');
+        } catch (\Throwable $th) {
+            return response()->error('Something went wrong: ');
+        }
+    }
+    public function rolesListPluck()
+    {
+        try {
+            return response()->success(Role::pluck('name', 'id'), '');
+        } catch (\Throwable $th) {
+            return response()->error('Something went wrong: ');
+        }
+    }
 }
