@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+
+use App\Http\Requests\RoleStoreRequest;
+use App\Http\Requests\RoleUpdateRequest;
 
 class RoleController extends Controller
 {
@@ -24,16 +26,10 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RoleStoreRequest $request)
     {
         try {
-            $data = [
-            'name' => $request->name,
-            'discription' => $request->discription,
-            ];
-
-            $role = Role::create($data);
-            return response()->success($role, '');
+            return response()->success(Role::create($request->validated()), '');
         } catch (\Throwable $th) {
             return response()->error('somthing went wrong');
         }
@@ -56,12 +52,10 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Role $role)
+    public function update(RoleUpdateRequest $request, Role $role)
     {
         try {
-            $role->name = $request->name;
-            $role->discription = $request->discription;
-            $role->update();
+            $role->update($request->validated());
             return response()->success($role, '');
         } catch (\Throwable $th) {
             return response()->error('somthing went wrong');
