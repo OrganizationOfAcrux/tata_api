@@ -26,8 +26,8 @@ class UserUpdateRequest extends FormRequest
             'last_name' => 'required|string|max:20',
             'username' => 'required|string|max:20|unique:users,username,' . $this->user->id,
             'email' => 'required|string|email|unique:users,email,' . $this->user->id,
-            'phone_number' => 'required|string|max:10',
-            'password' => 'nullable|string|min:8',
+            'phone_number' => 'required|max:15',
+            'password' => 'nullable|min:8',
         ];
     }
 }
