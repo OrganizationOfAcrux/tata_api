@@ -13,10 +13,10 @@ class UserController extends Controller
     public function index(Request $request)
     {
         try {
-            $users = User::with('role')->get();
+            $users = User::all();
             return response()->success($users, '');
         } catch (\Throwable $th) {
-            return response()->error('Something went wrong: ');
+            return response()->error('Something went wrong.');
         }
     }
 
@@ -34,10 +34,7 @@ class UserController extends Controller
             $user->role_id = $roleId;
             $user->save();
 
-            // Retrieve the role name related with the user's role_id
-            $roleName = Role::find($roleId)->name;
-
-            return response()->success(['user' => $user, 'role_name' => $roleName], 'User created successfully');
+            return response()->success($user, 'User created successfully');
         } catch (\Throwable $th) {
             return response()->error('Something went wrong: ');
         }
@@ -46,12 +43,9 @@ class UserController extends Controller
     public function show(Request $request, User $user)
     {
         try {
-
-            $roleName = $user->role()->value('name');
-
-            return response()->success(['user' => $user,'role_name' => $roleName], 'User retrieved successfully');
+            return response()->success($user, 'User retrieved successfully');
         } catch (\Throwable $th) {
-            return response()->error('Something went wrong: '.$th->getMessage());
+            return response()->error('Something went wrong: ');
         }
     }
 
