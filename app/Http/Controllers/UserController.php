@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Role;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 
@@ -25,18 +26,26 @@ class UserController extends Controller
         try {
             $validatedData = $request->validated();
 
-            // find the role ID
+            // Retrieve the role ID from the request
             $roleId = $request->input('role_id');
 
-            // Create a user with the role ID
+            // Create a new user with the role ID assigned
             $user = new User($validatedData);
             $user->role_id = $roleId;
             $user->save();
 
+            // Retrieve the role name associated with the user's role_id
+            $roleName = Role::find($roleId)->name;
 
-            return response()->success($user, 'User created successfully');
+            // Create a response array with user data and role name
+            $responseData = [
+                'user' => $user,
+                'role_name' => $roleName,
+            ];
+
+            return response()->success($responseData, 'User created successfully');
         } catch (\Throwable $th) {
-            return response()->error('somthing went wrong');
+            return response()->error('Something went wrong: '.$th->getMessage());
         }
     }
 
