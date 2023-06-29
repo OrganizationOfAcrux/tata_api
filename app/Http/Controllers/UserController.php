@@ -23,9 +23,19 @@ class UserController extends Controller
     public function store(UserStoreRequest $request)
     {
         try {
-            return response()->success(User::create($request->validated()), '');
+            $validatedData = $request->validated();
+
+            // Retrieve the role ID from the request
+            $roleId = $request->input('role_id');
+
+            // Create a new user with the role ID assigned
+            $user = new User($validatedData);
+            $user->role_id = $roleId;
+            $user->save();
+
+            return response()->success($user, 'User created successfully');
         } catch (\Throwable $th) {
-            return response()->error('somthing went wrong');
+            return response()->error('Something went wrong: '.$th->getMessage());
         }
     }
 
