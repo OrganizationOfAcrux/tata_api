@@ -53,18 +53,11 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, User $user)
     {
         try {
-            $validatedData = $request->validated();
-
-            // Retrieve the role ID
-            $roleId = $request->input('role_id');
-
-            // Update the user's role_id
-            $user->role_id = $roleId;
-            $user->save();
+            $user->update($request->validated());
 
             return response()->success($user, 'User updated successfully');
         } catch (\Throwable $th) {
-            return response()->error('Something went wrong: '.$th->getMessage());
+            return response()->error('Something went wrong: ');
         }
     }
 

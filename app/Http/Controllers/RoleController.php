@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\RoleStoreRequest;
 use App\Http\Requests\RoleUpdateRequest;
@@ -67,10 +68,19 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         try {
+            // Check if the role is in use by any user
+            $usersWithRole = User::where('role_id', $role->id)->exists();
+
+            if ($usersWithRole) {
+                return response()->error('Cannot delete the role. It is in use by some users.');
+            }
+
+            // Delete the role
             $role->delete();
-            return response()->success([], "role deleted successfully.");
+
+            return response()->success([], 'Role deleted successfully.');
         } catch (\Throwable $th) {
-            return response()->error('Something went wrong.');
+            return response()->error('Something went wrong.'. $th->getMessage());
         }
     }
 

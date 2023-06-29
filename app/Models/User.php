@@ -55,11 +55,24 @@ class User extends Authenticatable
     {
         $this->attributes['first_name'] = ucfirst($value);// if u want to capital the full word and save it in the database use (strtoupper)
     }
+
+
     public function setLastNameAttribute($value)
     {
-        $this->attributes['last_name'] = ucfirst($value);// if u want to capital the full word and save it in the database use (strtoupper)
+        $this->attributes['last_name'] = ucfirst($value);
     }
 
+
+    public function setUsernameAttribute($value)
+    {
+        $this->attributes['username'] = strtolower($value);
+    }
+
+
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
 
     //making the connection for the role table
     public function role()

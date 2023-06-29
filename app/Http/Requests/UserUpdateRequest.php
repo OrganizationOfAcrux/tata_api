@@ -28,6 +28,7 @@ class UserUpdateRequest extends FormRequest
             'email' => 'required|string|email|unique:users,email,' . $this->user->id,
             'phone_number' => 'required',
             'password' => 'nullable',
+            'role_id'  => 'required|exists:roles,id'
         ];
     }
 }

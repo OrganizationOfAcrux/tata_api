@@ -21,9 +21,9 @@ class Role extends Model
     }
 
 
-    //making the connection for the user
-    // public function users()
-    // {
-    //     return $this->hasMany(User::class);
-    // }
+    // making the connection for the user
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

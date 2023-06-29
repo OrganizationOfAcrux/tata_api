@@ -28,6 +28,7 @@ class UserStoreRequest extends FormRequest
             'email' => 'required|string|email|unique:users',
             'phone_number' => 'required',
             'password' => 'required',
+            'role_id'  => 'required|exists:roles,id'
         ];
     }
 }
