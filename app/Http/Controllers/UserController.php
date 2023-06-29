@@ -26,54 +26,51 @@ class UserController extends Controller
         try {
             $validatedData = $request->validated();
 
-            // Retrieve the role ID from the request
+            // Retrieve the role ID
             $roleId = $request->input('role_id');
 
-            // Create a new user with the role ID assigned
+            // Create a user with the role ID
             $user = new User($validatedData);
             $user->role_id = $roleId;
             $user->save();
 
-            // Retrieve the role name associated with the user's role_id
+            // Retrieve the role name related with the user's role_id
             $roleName = Role::find($roleId)->name;
 
-            // Create a response array with user data and role name
-            $responseData = [
-                'user' => $user,
-                'role_name' => $roleName,
-            ];
-
-            return response()->success($responseData, 'User created successfully');
+            return response()->success(['user' => $user, 'role_name' => $roleName], 'User created successfully');
         } catch (\Throwable $th) {
-            return response()->error('Something went wrong: '.$th->getMessage());
+            return response()->error('Something went wrong: ');
         }
     }
 
-
-    public function show(User $user)
+    public function show(Request $request, User $user)
     {
         try {
-            $user->load('role');
-            $roleName = $user->role->name;
 
-            $responseData = [
-                'user' => $user,
-                'role_name' => $roleName,
-            ];
+            $roleName = $user->role()->value('name');
 
-            return response()->success($responseData, 'User retrieved successfully');
+            return response()->success(['user' => $user,'role_name' => $roleName], 'User retrieved successfully');
         } catch (\Throwable $th) {
             return response()->error('Something went wrong: '.$th->getMessage());
         }
     }
+
 
     public function update(UserUpdateRequest $request, User $user)
     {
         try {
-            $user->update($request->validated());
-            return response()->success($user, '');
+            $validatedData = $request->validated();
+
+            // Retrieve the role ID
+            $roleId = $request->input('role_id');
+
+            // Update the user's role_id
+            $user->role_id = $roleId;
+            $user->save();
+
+            return response()->success($user, 'User updated successfully');
         } catch (\Throwable $th) {
-            return response()->error('somthing went wrong');
+            return response()->error('Something went wrong: '.$th->getMessage());
         }
     }
 
