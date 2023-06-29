@@ -25,17 +25,18 @@ class UserController extends Controller
         try {
             $validatedData = $request->validated();
 
-            // Retrieve the role ID from the request
+            // find the role ID
             $roleId = $request->input('role_id');
 
-            // Create a new user with the role ID assigned
+            // Create a user with the role ID
             $user = new User($validatedData);
             $user->role_id = $roleId;
             $user->save();
 
+
             return response()->success($user, 'User created successfully');
         } catch (\Throwable $th) {
-            return response()->error('Something went wrong: '.$th->getMessage());
+            return response()->error('somthing went wrong');
         }
     }
 
@@ -43,10 +44,17 @@ class UserController extends Controller
     public function show(User $user)
     {
         try {
-            $user->role;
-            return response()->success($user, '');
+            $user->load('role');
+            $roleName = $user->role->name;
+
+            $responseData = [
+                'user' => $user,
+                'role_name' => $roleName,
+            ];
+
+            return response()->success($responseData, 'User retrieved successfully');
         } catch (\Throwable $th) {
-            return response()->error('somthing went wrong');
+            return response()->error('Something went wrong: '.$th->getMessage());
         }
     }
 
@@ -70,4 +78,5 @@ class UserController extends Controller
             return response()->error('Something went wrong.');
         }
     }
+
 }
