@@ -10,6 +10,7 @@ use App\Http\Requests\UserUpdateRequest;
 
 class UserController extends Controller
 {
+    // this function show all user
     public function index(Request $request)
     {
         try {
@@ -19,7 +20,7 @@ class UserController extends Controller
         }
     }
 
-
+    // this is store function to store the user in DB
     public function store(UserStoreRequest $request)
     {
         try {
@@ -29,6 +30,7 @@ class UserController extends Controller
         }
     }
 
+    //this is show function to show the user by selecting the id of the user
     public function show(Request $request, User $user)
     {
         try {
@@ -38,7 +40,7 @@ class UserController extends Controller
         }
     }
 
-
+    // this is update function to update the user record
     public function update(UserUpdateRequest $request, User $user)
     {
         try {
@@ -49,7 +51,7 @@ class UserController extends Controller
         }
     }
 
-
+    // this is the delete function to delete the user
     public function destroy(Request $request, User $user)
     {
         try {
@@ -58,5 +60,4 @@ class UserController extends Controller
             return response()->error('Something went wrong.', 404);
         }
     }
-
 }

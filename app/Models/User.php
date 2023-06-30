@@ -51,7 +51,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-
+    //these two function save the first_name and last_name first word in capital
     public function setFirstNameAttribute($value)
     {
         $this->attributes['first_name'] = ucfirst($value);// if u want to capital the full word and save it in the database use (strtoupper)
@@ -63,7 +63,7 @@ class User extends Authenticatable
         $this->attributes['last_name'] = ucfirst($value);
     }
 
-
+    // these two function save the username and email in small letters
     public function setUsernameAttribute($value)
     {
         $this->attributes['username'] = strtolower($value);
@@ -81,6 +81,7 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    //this is for to get teh role name and show in fronend
     protected $appends = ['role_name'];
 
     public function getRoleNameAttribute()

@@ -79,16 +79,17 @@ class RoleController extends Controller
         }
     }
 
-
+    //this function is use to create the duplicate user
     public function edit(Role $role)
     {
         try {
             return Response()->success(Role::create(['name' => $role->name . '-copy','discription' => $role->discription]), 'Role copied successfully');
         } catch (\Throwable $th) {
-            return Response()->error('Something went wrong'.$th->getMessage(), 404);
+            return Response()->error('somthing went wrong', 404);
         }
     }
 
+    //this function is use to get the role user list using Pluck to get only name and id
     public function rolesList()
     {
         try {

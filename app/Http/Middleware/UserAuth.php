@@ -15,6 +15,7 @@ class UserAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // this is for the login to add session
         if ($request->path()=="login"  && $request->session()->has('user')) {
         }
         return $next($request);

@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-// use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
+    //this is for login and check the hash in the user DB
     public function login(Request $request)
     {
         $user = User::where(['email'=>$request->email])->first();
@@ -21,6 +21,7 @@ class AuthController extends Controller
         }
     }
 
+    // this is forget password function
     public function forgetPassword(Request $request)
     {
         try {
@@ -40,7 +41,7 @@ class AuthController extends Controller
         }
     }
 
-
+    //this is the password reset function
     public function resetPassword(Request $request)
     {
         try {
