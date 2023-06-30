@@ -13,10 +13,9 @@ class UserController extends Controller
     public function index(Request $request)
     {
         try {
-            $users = User::all();
-            return response()->success($users, '');
+            return response()->success(User::all(), '');
         } catch (\Throwable $th) {
-            return response()->error('Something went wrong.');
+            return response()->error('Something went wrong.', 404);
         }
     }
 
@@ -24,19 +23,9 @@ class UserController extends Controller
     public function store(UserStoreRequest $request)
     {
         try {
-            $validatedData = $request->validated();
-
-            // Retrieve the role ID
-            $roleId = $request->input('role_id');
-
-            // Create a user with the role ID
-            $user = new User($validatedData);
-            $user->role_id = $roleId;
-            $user->save();
-
-            return response()->success($user, 'User created successfully');
+            return response()->success(User::create($request->validated()), 'User created successfully');
         } catch (\Throwable $th) {
-            return response()->error('Something went wrong: ');
+            return response()->error('Something went wrong: ', 404);
         }
     }
 
@@ -45,7 +34,7 @@ class UserController extends Controller
         try {
             return response()->success($user, 'User retrieved successfully');
         } catch (\Throwable $th) {
-            return response()->error('Something went wrong: ');
+            return response()->error('Something went wrong: ', 404);
         }
     }
 
@@ -54,10 +43,9 @@ class UserController extends Controller
     {
         try {
             $user->update($request->validated());
-
             return response()->success($user, 'User updated successfully');
         } catch (\Throwable $th) {
-            return response()->error('Something went wrong: ');
+            return response()->error('Something went wrong: ', 404);
         }
     }
 
@@ -65,10 +53,9 @@ class UserController extends Controller
     public function destroy(Request $request, User $user)
     {
         try {
-            $user->delete();
-            return response()->success([], "Users deleted successfully.");
+            return response()->success($user->delete(), "Users deleted successfully.");
         } catch (\Throwable $th) {
-            return response()->error('Something went wrong.');
+            return response()->error('Something went wrong.', 404);
         }
     }
 

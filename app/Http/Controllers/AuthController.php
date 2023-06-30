@@ -14,7 +14,7 @@ class AuthController extends Controller
     {
         $user = User::where(['email'=>$request->email])->first();
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->error('The email and password you enter is incorrect');
+            return response()->error('The email and password you enter is incorrect', 422);
         } else {
             session()->put('user', $user);
             return response()->success($user, 'login successfull');
@@ -26,7 +26,7 @@ class AuthController extends Controller
         try {
             $user = User::where('email', $request->email)->first();
             if (!$user) {
-                return response()->error('No user exists with this email');
+                return response()->error('No user exists with this email', 404);
             } else {
                 //this is the method how to give the value ot the reset_token
                 $resetToken = Str::random(64);
@@ -36,7 +36,7 @@ class AuthController extends Controller
                 return response()->success(['token' => $user->reset_token], '');
             }
         } catch (\Throwable $th) {
-            return response()->error('somthing went wrong ');
+            return response()->error('somthing went wrong ', 404);
         }
     }
 
@@ -60,13 +60,13 @@ class AuthController extends Controller
 
                     return response()->success([], 'Password reset successfully');
                 } else {
-                    return response()->error('Confirm password does not match with password');
+                    return response()->error('Confirm password does not match with password', 422);
                 }
             } else {
-                return response()->error('Invalid reset token');
+                return response()->error('Invalid reset token', 422);
             }
         } catch (\Throwable $th) {
-            return response()->error('Something went wrong');
+            return response()->error('Something went wrong', 404);
         }
     }
 }

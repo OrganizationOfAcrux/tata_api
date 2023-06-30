@@ -18,7 +18,7 @@ class RoleController extends Controller
         try {
             return response()->success(Role::all(), '');
         } catch (\Throwable $th) {
-            return response()->error('somthing went wrong');
+            return response()->error('somthing went wrong', 404);
         }
     }
 
@@ -31,7 +31,7 @@ class RoleController extends Controller
         try {
             return response()->success(Role::create($request->validated()), '');
         } catch (\Throwable $th) {
-            return response()->error('somthing went wrong');
+            return response()->error('somthing went wrong', 404);
         }
     }
 
@@ -43,7 +43,7 @@ class RoleController extends Controller
         try {
             return response()->success($role, '');
         } catch (\Throwable $th) {
-            return response()->error('somthing went wrong');
+            return response()->error('somthing went wrong', 404);
         }
     }
 
@@ -58,7 +58,7 @@ class RoleController extends Controller
             $role->update($request->validated());
             return response()->success($role, '');
         } catch (\Throwable $th) {
-            return response()->error('somthing went wrong');
+            return response()->error('somthing went wrong', 404);
         }
     }
 
@@ -68,19 +68,14 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         try {
-            // Check if the role is in use by any user
-            $usersWithRole = User::where('role_id', $role->id)->exists();
-
-            if ($usersWithRole) {
-                return response()->error('Cannot delete the role. It is in use by some users.');
+            if ($role->users()->exists()) {
+                return response()->error('Cannot delete the role. It is in use by some users.', 400);
+            } else {
+                $role->delete();
+                return response()->success([], 'Role deleted successfully.');
             }
-
-            // Delete the role
-            $role->delete();
-
-            return response()->success([], 'Role deleted successfully.');
         } catch (\Throwable $th) {
-            return response()->error('Something went wrong.'. $th->getMessage());
+            return response()->error('Something went wrong.', 404);
         }
     }
 
@@ -88,33 +83,18 @@ class RoleController extends Controller
     public function edit(Role $role)
     {
         try {
-            $roleCopy = new Role();
-            $roleCopy->name = $role->name .'-copy';
-            $roleCopy->discription = $role->discription;
-            $roleCopy->save();
-
-            return Response()->success($roleCopy, 'Role copied successfully');
+            return Response()->success(Role::create(['name' => $role->name . '-copy','discription' => $role->discription]), 'Role copied successfully');
         } catch (\Throwable $th) {
-            return Response()->error('Something went wrong');
+            return Response()->error('Something went wrong'.$th->getMessage(), 404);
         }
     }
 
-
-    //this is for get all the roles from the DB
     public function rolesList()
-    {
-        try {
-            return response()->success(Role::get(['id','name']), '');
-        } catch (\Throwable $th) {
-            return response()->error('Something went wrong: ');
-        }
-    }
-    public function rolesListPluck()
     {
         try {
             return response()->success(Role::pluck('name', 'id'), '');
         } catch (\Throwable $th) {
-            return response()->error('Something went wrong: ');
+            return response()->error('Something went wrong: ', 404);
         }
     }
 }

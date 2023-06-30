@@ -27,11 +27,12 @@ return new class () extends Migration {
         });
 
         DB::table('users')->insert([
+         'role_id' => 11,
          'first_name' => 'Chiramjeev',
          'last_name' => 'Poriya',
          'username' => 'Poriya@1',
          'email' => 'chiranjeev@poriya.com',
-         'phone_number' => '(+91)8445937832',
+         'phone_number' => '8445937832',
          'password' => Hash::make('123456'),
         ]);
 

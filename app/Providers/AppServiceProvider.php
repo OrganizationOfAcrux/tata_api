@@ -28,11 +28,11 @@ class AppServiceProvider extends ServiceProvider
             ], 200);
         });
 
-        Response::macro('error', function ($msg) {
+        Response::macro('error', function ($msg, $status_code) {
             return response()->json([
                 'success' => false,
                 'msg' => $msg,
-            ], 404);
+            ], $status_code);
         });
     }
 }
