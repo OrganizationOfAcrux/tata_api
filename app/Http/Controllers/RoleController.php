@@ -69,7 +69,7 @@ class RoleController extends Controller
     {
         try {
             if ($role->users()->exists()) {
-                return response()->error('Cannot delete the role. It is in use by some users.', 400);
+                return response()->error('Role is in use.', 400);
             } else {
                 $role->delete();
                 return response()->success([], 'Role deleted successfully.');
