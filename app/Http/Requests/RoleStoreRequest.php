@@ -23,7 +23,7 @@ class RoleStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string|unique:roles,name',
-            'discription' => 'nullable',
+            'description' => 'nullable',
         ];
     }
 }

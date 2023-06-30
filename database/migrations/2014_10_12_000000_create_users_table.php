@@ -27,7 +27,7 @@ return new class () extends Migration {
         });
 
         DB::table('users')->insert([
-         'role_id' => 11,
+         'role_id' => 1,
          'first_name' => 'Chiramjeev',
          'last_name' => 'Poriya',
          'username' => 'Poriya@1',

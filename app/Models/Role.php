@@ -12,7 +12,7 @@ class Role extends Model
 
     protected $fillable = [
         'name',
-        'discription',
+        'description',
     ];
 
     // to capital first word in capital

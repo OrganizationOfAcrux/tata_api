@@ -83,7 +83,7 @@ class RoleController extends Controller
     public function edit(Role $role)
     {
         try {
-            return Response()->success(Role::create(['name' => $role->name . '-copy','discription' => $role->discription]), 'Role copied successfully');
+            return Response()->success(Role::create(['name' => $role->name . '-copy','description' => $role->description]), 'Role copied successfully');
         } catch (\Throwable $th) {
             return Response()->error('somthing went wrong', 404);
         }
