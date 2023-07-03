@@ -30,7 +30,6 @@ Route::get('logout', function () {
 
 
 Route::resource('users', UserController::class);
-Route::get('users', [UserController::class, 'index']);
 
 
 Route::get('roles-list', [RoleController::class, 'rolesList']);

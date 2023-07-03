@@ -12,23 +12,24 @@ class LibraryController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            return response()->success(Library::all(), '');
+        } catch (\Throwable $th) {
+            return response()->error('somthing went wrong', 404);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        try {
+            return response()->success(Library::create($request->validated()), '');
+        } catch (\Throwable $th) {
+            return response()->error('somthing went wrong', 404);
+        }
     }
 
     /**
@@ -36,23 +37,25 @@ class LibraryController extends Controller
      */
     public function show(Library $library)
     {
-        //
+        try {
+            return response()->success($library, '');
+        } catch (\Throwable $th) {
+            return response()->error('somthing went wrong', 404);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Library $library)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Library $library)
     {
-        //
+        try {
+            $library->update($request->validated());
+            return response()->success($library, '');
+        } catch (\Throwable $th) {
+            return response()->error('somthing went wrong', 404);
+        }
     }
 
     /**
@@ -60,6 +63,10 @@ class LibraryController extends Controller
      */
     public function destroy(Library $library)
     {
-        //
+        try {
+            return response()->success($library->delete(), "Users deleted successfully.");
+        } catch (\Throwable $th) {
+            return response()->error('Something went wrong.', 404);
+        }
     }
 }
