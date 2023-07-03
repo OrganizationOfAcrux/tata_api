@@ -30,7 +30,7 @@ class LibrarySeeder extends Seeder
                     'Computer Science',
                     'Physical Education',
                 ],
-                'available' => 20,
+                'available' => 25,
             ],
             [
                 'class' => '10th',
@@ -42,7 +42,7 @@ class LibrarySeeder extends Seeder
                     'Computer Science',
                     'Physical Education',
                 ],
-                'available' => 20,
+                'available' => 25,
             ],
             [
                 'class' => '11th',
@@ -52,8 +52,9 @@ class LibrarySeeder extends Seeder
                     'Biology',
                     'Mathematics',
                     'English',
+                    'Computer Science',
                 ],
-                'available' => 15,
+                'available' => 25,
             ],
             [
                 'class' => '12th',
@@ -63,8 +64,9 @@ class LibrarySeeder extends Seeder
                     'Biology',
                     'Mathematics',
                     'English',
+                    'Computer Science',
                 ],
-                'available' => 15,
+                'available' => 25,
             ],
         ];
 
