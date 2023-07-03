@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Library extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'subject',
+        'class',
+        'available',
+
+    ];
+
+    public function setSubjectAttribute($value)
+    {
+        $this->attributes['subject'] = ucfirst($value);// if u want to capital the full word and save it in the database use (strtoupper)
+    }
 }

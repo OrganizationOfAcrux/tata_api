@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Library;
 use Illuminate\Http\Request;
+use App\Http\Requests\LibraryStoreRequest;
+use App\Http\Requests\LibraryUpdateRequest;
 
 class LibraryController extends Controller
 {
@@ -23,10 +25,10 @@ class LibraryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(LibraryStoreRequest $request)
     {
         try {
-            return response()->success(Library::create($request->validated()), '');
+            return response()->success(Library::create($request->validated()), 'created successfully');
         } catch (\Throwable $th) {
             return response()->error('somthing went wrong', 404);
         }
@@ -35,10 +37,10 @@ class LibraryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Library $library)
+    public function show(Request $request, Library $library)
     {
         try {
-            return response()->success($library, '');
+            return response()->success($library, 'retrive successfull');
         } catch (\Throwable $th) {
             return response()->error('somthing went wrong', 404);
         }
@@ -48,11 +50,11 @@ class LibraryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Library $library)
+    public function update(LibraryUpdateRequest $request, Library $library)
     {
         try {
             $library->update($request->validated());
-            return response()->success($library, '');
+            return response()->success($library, 'updated successfully');
         } catch (\Throwable $th) {
             return response()->error('somthing went wrong', 404);
         }
@@ -61,10 +63,10 @@ class LibraryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Library $library)
+    public function destroy(Request $request, Library $library)
     {
         try {
-            return response()->success($library->delete(), "Users deleted successfully.");
+            return response()->success($library->delete(), "deleted successfully.");
         } catch (\Throwable $th) {
             return response()->error('Something went wrong.', 404);
         }

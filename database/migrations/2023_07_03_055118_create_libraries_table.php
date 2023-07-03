@@ -12,7 +12,6 @@ return new class () extends Migration {
     {
         Schema::create('libraries', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
             $table->string('subject');
             $table->string('class');
             $table->string('available');

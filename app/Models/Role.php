@@ -15,7 +15,7 @@ class Role extends Model
         'description',
     ];
 
-    // to capital first word in capital
+    // to capital first word
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = ucfirst($value);// if u want to capital the full word and save it in the database use (strtoupper)
