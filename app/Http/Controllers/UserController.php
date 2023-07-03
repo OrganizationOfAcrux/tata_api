@@ -14,7 +14,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         try {
-            return response()->success(User::all(), '');
+            return response()->success(User::paginate(), '');
         } catch (\Throwable $th) {
             return response()->error('Something went wrong.', 404);
         }
