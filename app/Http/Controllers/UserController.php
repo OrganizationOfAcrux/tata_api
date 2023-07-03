@@ -14,7 +14,11 @@ class UserController extends Controller
     public function index(Request $request)
     {
         try {
-            return response()->success(User::all(), '');
+            $perPage = $request->query('limit', 10); // Get the limit (number of users per page) from the request
+
+            $users = User::paginate($perPage); // Paginate the users with default pagination settings
+
+            return response()->success($users, '');
         } catch (\Throwable $th) {
             return response()->error('Something went wrong.', 404);
         }
