@@ -10,7 +10,7 @@ use App\Http\Requests\UserUpdateRequest;
 
 class UserController extends Controller
 {
-    // this function show all user
+    // this function show all user and there is the pagination also
     public function index(Request $request)
     {
         try {

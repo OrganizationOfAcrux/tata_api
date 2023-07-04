@@ -4,10 +4,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Library;
+use App\Models\Book;
 use Faker\Factory as Faker;
 
-class LibrarySeeder extends Seeder
+class BookSeeder extends Seeder
 {
     /**
      * Run the seeder.
@@ -77,7 +77,7 @@ class LibrarySeeder extends Seeder
             $available = $classSubject['available'];
 
             foreach ($subjects as $subject) {
-                Library::create([
+                Book::create([
                     'subject' => $subject,
                     'class' => $class,
                     'available' => $available,

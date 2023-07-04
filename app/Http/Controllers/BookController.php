@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Library;
+use App\Models\Book;
 use Illuminate\Http\Request;
-use App\Http\Requests\LibraryStoreRequest;
-use App\Http\Requests\LibraryUpdateRequest;
+use App\Http\Requests\BookStoreRequest;
+use App\Http\Requests\BookUpdateRequest;
 
-class LibraryController extends Controller
+class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,20 +15,19 @@ class LibraryController extends Controller
     public function index()
     {
         try {
-            return response()->success(Library::all(), '');
+            return response()->success(book::paginate(), '');
         } catch (\Throwable $th) {
             return response()->error('somthing went wrong', 404);
         }
     }
 
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(LibraryStoreRequest $request)
+    public function store(BookStoreRequest $request)
     {
         try {
-            return response()->success(Library::create($request->validated()), 'created successfully');
+            return response()->success(Book::create($request->validated()), 'created successfully');
         } catch (\Throwable $th) {
             return response()->error('somthing went wrong', 404);
         }
@@ -37,24 +36,23 @@ class LibraryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, Library $library)
+    public function show(Request $request, Book $book)
     {
         try {
-            return response()->success($library, 'retrive successfull');
+            return response()->success($book, 'retrive successfull');
         } catch (\Throwable $th) {
             return response()->error('somthing went wrong', 404);
         }
     }
 
-
     /**
      * Update the specified resource in storage.
      */
-    public function update(LibraryUpdateRequest $request, Library $library)
+    public function update(BookUpdateRequest $request, Book $book)
     {
         try {
-            $library->update($request->validated());
-            return response()->success($library, 'updated successfully');
+            $book->update($request->validated());
+            return response()->success($book, 'updated successfully');
         } catch (\Throwable $th) {
             return response()->error('somthing went wrong', 404);
         }
@@ -63,12 +61,13 @@ class LibraryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Library $library)
+    public function destroy(Request $request, Book $book)
     {
         try {
-            return response()->success($library->delete(), "deleted successfully.");
+            return response()->success($book->delete(), "deleted successfully.");
         } catch (\Throwable $th) {
             return response()->error('Something went wrong.', 404);
         }
     }
+
 }

@@ -16,7 +16,7 @@ class RoleController extends Controller
     public function index()
     {
         try {
-            return response()->success(Role::all(), '');
+            return response()->success(Role::paginate(), '');
         } catch (\Throwable $th) {
             return response()->error('somthing went wrong', 404);
         }

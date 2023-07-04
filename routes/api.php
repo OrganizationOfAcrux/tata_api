@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\LibraryController;
+use App\Http\Controllers\BookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,8 +32,7 @@ Route::get('logout', function () {
 
 Route::resource('users', UserController::class);
 
-Route::resource('libraries', LibraryController::class);
-
+Route::resource('books', BookController::class);
 
 
 Route::get('roles-list', [RoleController::class, 'rolesList']);

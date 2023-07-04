@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LibraryUpdateRequest extends FormRequest
+class BookStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,6 +25,7 @@ class LibraryUpdateRequest extends FormRequest
             'subject' => 'required|string',
             'class' => 'required|string',
             'available' => 'required',
+
         ];
     }
 }
