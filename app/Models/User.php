@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Role;
+use App\Models\Library;
 
 class User extends Authenticatable
 {
@@ -79,6 +80,11 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function library()
+    {
+        return $this->hasMany(Library::class);
     }
 
     //this is for to get teh role name and show in fronend
