@@ -44,5 +44,6 @@ Route::post('forgetpassword', [AuthController::class, 'forgetPassword']);
 Route::post('resetpassword', [AuthController::class, 'resetPassword']);
 
 
-// Route::post('books', [LibraryController::class, 'addBook']);
-Route::get('book/total', [LibraryController::class, 'getTotalBook']);
+Route::get('libraries/total', [LibraryController::class, 'getTotalBook']);
+Route::post('libraries/assigne', [LibraryController::class, 'assignBookToUser']);
+Route::get('libraries/students/{search}', [LibraryController::class, 'search']);

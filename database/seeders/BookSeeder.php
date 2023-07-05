@@ -21,7 +21,7 @@ class BookSeeder extends Seeder
         // Define the class and subject data
         $classSubjects = [
             [
-                'class' => '9th',
+                'class' => '9',
                 'subjects' => [
                     'Mathematics',
                     'Science',
@@ -33,7 +33,7 @@ class BookSeeder extends Seeder
                 'available' => 25,
             ],
             [
-                'class' => '10th',
+                'class' => '10',
                 'subjects' => [
                     'Mathematics',
                     'Science',
@@ -45,7 +45,7 @@ class BookSeeder extends Seeder
                 'available' => 25,
             ],
             [
-                'class' => '11th',
+                'class' => '11',
                 'subjects' => [
                     'Physics',
                     'Chemistry',
@@ -57,7 +57,7 @@ class BookSeeder extends Seeder
                 'available' => 25,
             ],
             [
-                'class' => '12th',
+                'class' => '12',
                 'subjects' => [
                     'Physics',
                     'Chemistry',
