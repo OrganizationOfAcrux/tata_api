@@ -35,14 +35,10 @@ class LibraryController extends Controller
     }
 
 
-    public function searchSubject(Request $request)
+    public function searchSubject(Request $request, $class)
     {
         try {
-            // Retrieve the class value from the request
-            $class = $request->input('class');
-
-            // Retrieve all the subjects for the given class
-            $subjects = Book::where('class', $class)->pluck('subject');
+            $subjects = Book::where('class', $class)->get(['id', 'subject']);
 
             return response()->success(['subjects' => $subjects], '');
         } catch (\Throwable $th) {
