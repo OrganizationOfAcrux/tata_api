@@ -50,16 +50,17 @@ class LibraryController extends Controller
     public function assignBookToUser(Request $request)
     {
         try {
-            // Retrieve the user and book IDs from the request
+            // Retrieve the user ID and book IDs from the request
             $userId = $request->input('user_id');
-            $bookId = $request->input('book_id');
+            $bookIds = $request->input('book_ids');
 
-
-            $library = new Library();
-            $library->user_id = $request->user_id;
-            $library->book_id = $request->book_id;
-            $library->save();
-
+            // Iterate over each book ID and assign it to the user
+            foreach ($bookIds as $bookId) {
+                $library = new Library();
+                $library->user_id = $userId;
+                $library->book_id = $bookId;
+                $library->save();
+            }
             return response()->success('Book assigned to user successfully', '');
         } catch (\Throwable $th) {
             return response()->error('Something went wrong: ' . $th->getMessage(), 404);
