@@ -11,10 +11,7 @@ class Library extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'book_id',
-    ];
+    protected $fillable = ['user_id', 'book_id'];
 
     public function users()
     {

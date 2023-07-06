@@ -35,6 +35,22 @@ class LibraryController extends Controller
     }
 
 
+    public function searchSubject(Request $request)
+    {
+        try {
+            // Retrieve the class value from the request
+            $class = $request->input('class');
+
+            // Retrieve all the subjects for the given class
+            $subjects = Book::where('class', $class)->pluck('subject');
+
+            return response()->success(['subjects' => $subjects], '');
+        } catch (\Throwable $th) {
+            return response()->error('Something went wrong: ' . $th->getMessage(), 500);
+        }
+    }
+
+
     public function assignBookToUser(Request $request)
     {
         try {
