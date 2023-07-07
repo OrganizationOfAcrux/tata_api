@@ -13,14 +13,14 @@ class Library extends Model
 
     protected $fillable = ['user_id', 'book_id'];
 
-    public function users()
+    public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function books()
+    public function book()
     {
-        return $this->belongsTo(Book::class);
+        return $this->belongsTo(Book::class, 'book_id');
     }
 
 }

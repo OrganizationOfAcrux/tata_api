@@ -54,31 +54,60 @@ class LibraryController extends Controller
             $userId = $request->input('user_id');
             $bookIds = $request->input('book_ids');
 
-            $errorMessage = '';
-
-            // Iterate over each book ID and check if it is already assigned to the user
-            foreach ($bookIds as $bookId) {
-                $existingAssignment = Library::where('user_id', $userId)->where('book_id', $bookId)->first();
-
-                // If the book is already assigned to the user, add an error message
-                if ($existingAssignment) {
-                    $errorMessage .= "Book with ID $bookId is already assigned to you. ";
-                    continue;
+            $user = User::find($userId);
+            if ($user) {
+                foreach ($bookIds as $bookId) {
+                    if ($user->books->contains($bookId)) {
+                        // User has already taken the book
+                        $book = $user->books->find($bookId);
+                        $book->makeHidden(['subject']);
+                    }
                 }
+            }
 
-                // Assign the book to the user
+
+            // Iterate over each book ID and assign it to the user
+            foreach ($bookIds as $bookId) {
                 $library = new Library();
                 $library->user_id = $userId;
                 $library->book_id = $bookId;
                 $library->save();
             }
-
-            if (!empty($errorMessage)) {
-                return response()->error($errorMessage, 400);
-            }
             return response()->success('Book assigned to user successfully', '');
         } catch (\Throwable $th) {
             return response()->error('Something went wrong: ' . $th->getMessage(), 404);
+        }
+    }
+
+    public function destroy(Request $request, Library $library)
+    {
+        try {
+            return response()->success($library->delete(), "deleted successfully.");
+        } catch (\Throwable $th) {
+            return response()->error('Something went wrong.', 404);
+        }
+    }
+
+    public function index(Request $request)
+    {
+        try {
+            $libraries = Library::with(['user' => function ($query) {
+                $query->select('id', 'first_name');
+            }, 'book' => function ($query) {
+                $query->select('id', 'subject', 'class');
+            }])->get(['id', 'user_id', 'book_id']);
+
+            $formattedLibraries = $libraries->map(function ($library) {
+                return [
+                    'user_name' => $library->user->first_name,
+                    'book_name' => $library->book->subject,
+                    'class' => $library->book->class,
+                ];
+            });
+
+            return response()->success(['libraries' => $formattedLibraries], '');
+        } catch (\Throwable $th) {
+            return response()->error('Something went wrong.'. $th->getMessage(), 404);
         }
     }
 }

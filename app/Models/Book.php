@@ -22,8 +22,8 @@ class Book extends Model
         $this->attributes['subject'] = ucfirst($value);// if u want to capital the full word and save it in the database use (strtoupper)
     }
 
-    public function library()
+    public function libraries()
     {
-        return $this->belongsTo(Library::class);
+        return $this->hasMany(Library::class, 'book_id');
     }
 }

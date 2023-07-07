@@ -84,9 +84,9 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public function library()
+    public function libraries()
     {
-        return $this->hasMany(Library::class);
+        return $this->hasMany(Library::class, 'user_id');
     }
 
     //this is for to get teh role name and show in fronend
