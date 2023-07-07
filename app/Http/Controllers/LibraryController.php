@@ -35,10 +35,14 @@ class LibraryController extends Controller
     }
 
 
-    public function searchSubject(Request $request, $class)
+    public function searchSubject(Request $request)
     {
         try {
-            $subjects = Book::where('class', $class)->get(['id', 'subject']);
+            $userId = $request->input('user_id');
+            $class = $request->input('class');
+
+            $bookIds = Library::where('user_id', $userId)->pluck('book_id')->toArray();
+            $subjects = Book::where('class', $class)->whereNotIn('id', $bookIds)->get(['id', 'subject']);
 
             return response()->success(['subjects' => $subjects], '');
         } catch (\Throwable $th) {
@@ -47,24 +51,12 @@ class LibraryController extends Controller
     }
 
 
-    public function booksToAssign(Request $request)
+    public function assignBookToUser(Request $request)
     {
         try {
             // Retrieve the user ID and book IDs from the request
             $userId = $request->input('user_id');
             $bookIds = $request->input('book_ids');
-
-            $user = User::find($userId);
-            if ($user) {
-                foreach ($bookIds as $bookId) {
-                    if ($user->books->contains($bookId)) {
-                        // User has already taken the book
-                        $book = $user->books->find($bookId);
-                        $book->makeHidden(['subject']);
-                    }
-                }
-            }
-
 
             // Iterate over each book ID and assign it to the user
             foreach ($bookIds as $bookId) {
