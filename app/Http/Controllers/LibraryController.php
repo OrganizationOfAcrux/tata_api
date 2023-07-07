@@ -97,15 +97,16 @@ class LibraryController extends Controller
                 $query->select('id', 'subject', 'class');
             }])->get(['id', 'user_id', 'book_id']);
 
-            $formattedLibraries = $libraries->map(function ($library) {
+            $Libraries = $libraries->map(function ($library) {
                 return [
+                    'user_id' => $library->user->id,
                     'user_name' => $library->user->first_name,
                     'book_name' => $library->book->subject,
                     'class' => $library->book->class,
                 ];
             });
 
-            return response()->success(['libraries' => $formattedLibraries], '');
+            return response()->success(['libraries' => $Libraries], '');
         } catch (\Throwable $th) {
             return response()->error('Something went wrong.'. $th->getMessage(), 404);
         }
