@@ -54,12 +54,27 @@ class LibraryController extends Controller
             $userId = $request->input('user_id');
             $bookIds = $request->input('book_ids');
 
-            // Iterate over each book ID and assign it to the user
+            $errorMessage = '';
+
+            // Iterate over each book ID and check if it is already assigned to the user
             foreach ($bookIds as $bookId) {
+                $existingAssignment = Library::where('user_id', $userId)->where('book_id', $bookId)->first();
+
+                // If the book is already assigned to the user, add an error message
+                if ($existingAssignment) {
+                    $errorMessage .= "Book with ID $bookId is already assigned to you. ";
+                    continue;
+                }
+
+                // Assign the book to the user
                 $library = new Library();
                 $library->user_id = $userId;
                 $library->book_id = $bookId;
                 $library->save();
+            }
+
+            if (!empty($errorMessage)) {
+                return response()->error($errorMessage, 400);
             }
             return response()->success('Book assigned to user successfully', '');
         } catch (\Throwable $th) {
