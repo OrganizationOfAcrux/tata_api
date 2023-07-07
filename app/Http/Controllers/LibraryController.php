@@ -99,7 +99,7 @@ class LibraryController extends Controller
 
             $Libraries = $libraries->map(function ($library) {
                 return [
-                    'user_id' => $library->user->id,
+                    'id' => $library->id,
                     'user_name' => $library->user->first_name,
                     'book_name' => $library->book->subject,
                     'class' => $library->book->class,
