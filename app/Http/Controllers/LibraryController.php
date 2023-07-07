@@ -47,7 +47,7 @@ class LibraryController extends Controller
     }
 
 
-    public function assignBookToUser(Request $request)
+    public function booksToAssign(Request $request)
     {
         try {
             // Retrieve the user ID and book IDs from the request
@@ -91,7 +91,7 @@ class LibraryController extends Controller
     public function index(Request $request)
     {
         try {
-            return response()->success(Library::paginate()->makeHidden(['created_at', 'updated_at','user_id','book_id']), '');
+            return response()->success(Library::paginate(), '');
         } catch (\Throwable $th) {
             return response()->error('Something went wrong: ' . $th->getMessage(), 404);
         }
