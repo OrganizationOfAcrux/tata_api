@@ -91,24 +91,10 @@ class LibraryController extends Controller
     public function index(Request $request)
     {
         try {
-            $libraries = Library::with(['user' => function ($query) {
-                $query->select('id', 'first_name');
-            }, 'book' => function ($query) {
-                $query->select('id', 'subject', 'class');
-            }])->get(['id', 'user_id', 'book_id']);
-
-            $Libraries = $libraries->map(function ($library) {
-                return [
-                    'id' => $library->id,
-                    'user_name' => $library->user->first_name,
-                    'book_name' => $library->book->subject,
-                    'class' => $library->book->class,
-                ];
-            });
-
-            return response()->success(['libraries' => $Libraries], '');
+            return response()->success(Library::paginate()->makeHidden(['created_at', 'updated_at','user_id','book_id']), '');
         } catch (\Throwable $th) {
-            return response()->error('Something went wrong.'. $th->getMessage(), 404);
+            return response()->error('Something went wrong: ' . $th->getMessage(), 404);
         }
     }
+
 }

@@ -23,4 +23,38 @@ class Library extends Model
         return $this->belongsTo(Book::class, 'book_id');
     }
 
+
+    protected $appends = ['student_name', 'book_name', 'class_name'];
+
+    public function getStudentNameAttribute()
+    {
+        $st = $this->user()->first();
+        if (isset($st)) {
+            return $st->first_name .  " " .  $st->last_name;
+        } else {
+            return null;
+        }
+    }
+
+
+    public function getBookNameAttribute()
+    {
+        $book = $this->book()->first();
+        if (isset($book)) {
+            return $book->subject;
+        } else {
+            return null;
+        }
+    }
+
+    public function getClassNameAttribute()
+    {
+        $book = $this->book()->first();
+        if (isset($book)) {
+            return $book->class;
+        } else {
+            return null;
+        }
+    }
+
 }
