@@ -102,31 +102,36 @@ class LibraryController extends Controller
     }
 
 
-    public function history(Request $request, $id)
+    public function history(Request $request, $user_id)
     {
         try {
-            $library = Library::with(['book'])
-                ->withTrashed() // Retrieve trashed entries as well
-                ->where('id', $id)
-                ->first();
+            $libraries = Library::with(['user', 'book'])
+                ->withTrashed()
+                ->where('user_id', $user_id)
+                ->get();
 
-            if (!$library) {
-                return response()->error('Library entry not found', 404);
+            if ($libraries->isEmpty()) {
+                return response()->error('No library entries found for the user', 404);
             }
 
-            $data = [
-                'id' => $library->id,
-                'user_id' => $library->user_id,
-                'book_name' => $library->book->subject,
-                'created_at' => $library->created_at,
-                'deleted_at' => $library->deleted_at
-            ];
+            $data = $libraries->map(function ($library) {
+                return [
+                    'id' => $library->id,
+                    'user_id' => $library->user_id,
+                    'user_name' => $library->user->first_name,
+                    'book_name' => $library->book->subject,
+                    'created_at' => $library->created_at,
+                    'deleted_at' => $library->deleted_at
+                ];
+            });
 
-            return response()->success($data, 'Library entry retrieved successfully');
+            return response()->success(['libraries' => $data], 'Library entries retrieved successfully');
         } catch (\Throwable $th) {
             return response()->error('Something went wrong: ' . $th->getMessage(), 404);
         }
     }
+
+
 
 
 }
