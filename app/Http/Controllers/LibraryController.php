@@ -101,4 +101,13 @@ class LibraryController extends Controller
         }
     }
 
+
+    public function history(Request $request)
+    {
+        try {
+            return response()->success(Library::withTrashed()->get(), '');
+        } catch (\Throwable $th) {
+            return response()->error('Something went wrong: ' . $th->getMessage(), 404);
+        }
+    }
 }
