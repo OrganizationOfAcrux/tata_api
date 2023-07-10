@@ -58,18 +58,30 @@ class LibraryController extends Controller
             $userId = $request->input('user_id');
             $bookIds = $request->input('book_ids');
 
-            // Iterate over each book ID and assign it to the user
-            foreach ($bookIds as $bookId) {
-                $library = new Library();
-                $library->user_id = $userId;
-                $library->book_id = $bookId;
-                $library->save();
+            // Get the current count of books assigned to the user
+            $assignedBooksCount = Library::where('user_id', $userId)->count();
+
+            // Calculate the remaining available slots for the user
+            $availableSlots = 5 - $assignedBooksCount;
+
+            // Check if the user has available slots to assign books
+            if ($availableSlots >= count($bookIds)) {
+                // Iterate over each book ID and assign it to the user
+                foreach ($bookIds as $bookId) {
+                    $library = new Library();
+                    $library->user_id = $userId;
+                    $library->book_id = $bookId;
+                    $library->save();
+                }
+                return response()->success('Book assigned to user successfully', '');
+            } else {
+                return response()->error('The user has reached the maximum number of books (5) assigned', 400);
             }
-            return response()->success('Book assigned to user successfully', '');
         } catch (\Throwable $th) {
             return response()->error('Something went wrong: ' . $th->getMessage(), 404);
         }
     }
+
 
     public function destroy(Request $request, Library $library)
     {
