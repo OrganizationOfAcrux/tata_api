@@ -50,4 +50,4 @@ Route::get('libraries/students/{search}', [LibraryController::class, 'search']);
 Route::get('libraries/search-subject', [LibraryController::class, 'searchSubject']);
 Route::get('libraries/index', [LibraryController::class, 'index']);
 Route::delete('libraries/{library}', [LibraryController::class, 'destroy']);
-Route::get('libraries/history', [LibraryController::class, 'history']);
+Route::get('libraries/history/{id}', [LibraryController::class, 'history']);

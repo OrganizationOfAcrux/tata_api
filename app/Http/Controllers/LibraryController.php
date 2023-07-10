@@ -102,12 +102,31 @@ class LibraryController extends Controller
     }
 
 
-    public function history(Request $request)
+    public function history(Request $request, $id)
     {
         try {
-            return response()->success(Library::withTrashed()->get(), '');
+            $library = Library::with(['book'])
+                ->withTrashed() // Retrieve trashed entries as well
+                ->where('id', $id)
+                ->first();
+
+            if (!$library) {
+                return response()->error('Library entry not found', 404);
+            }
+
+            $data = [
+                'id' => $library->id,
+                'user_id' => $library->user_id,
+                'book_name' => $library->book->subject,
+                'created_at' => $library->created_at,
+                'deleted_at' => $library->deleted_at
+            ];
+
+            return response()->success($data, 'Library entry retrieved successfully');
         } catch (\Throwable $th) {
             return response()->error('Something went wrong: ' . $th->getMessage(), 404);
         }
     }
+
+
 }
