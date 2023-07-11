@@ -58,7 +58,6 @@ class LibraryController extends Controller
             $userId = $request->input('user_id');
             $bookIds = $request->input('book_ids');
 
-            // Get the current count of books assigned to the user
             $assignedBooksCount = Library::where('user_id', $userId)->count();
 
             // Calculate the remaining available slots for the user
@@ -68,11 +67,20 @@ class LibraryController extends Controller
             if ($availableSlots >= count($bookIds)) {
                 // Iterate over each book ID and assign it to the user
                 foreach ($bookIds as $bookId) {
+                    // Check if the user has already taken the book
+                    $existingAssignment = Library::where('user_id', $userId)->where('book_id', $bookId)->first();
+
+                    if ($existingAssignment) {
+                        return response()->error('you already take this ID ' . $bookId . ' book', 400);
+                    }
+
+                    // Assign the book to the user
                     $library = new Library();
                     $library->user_id = $userId;
                     $library->book_id = $bookId;
                     $library->save();
                 }
+
                 return response()->success('Book assigned to user successfully', '');
             } else {
                 return response()->error('The user has reached the maximum number of books (5) assigned', 400);
@@ -81,6 +89,7 @@ class LibraryController extends Controller
             return response()->error('Something went wrong: ' . $th->getMessage(), 404);
         }
     }
+
 
 
     public function destroy(Request $request, Library $library)
@@ -108,6 +117,7 @@ class LibraryController extends Controller
             $libraries = Library::with(['user', 'book'])
                 ->withTrashed()
                 ->where('user_id', $user_id)
+                ->orderBy('created_at', 'desc') // Order by created_at column in descending order
                 ->get();
 
             if ($libraries->isEmpty()) {
@@ -130,8 +140,4 @@ class LibraryController extends Controller
             return response()->error('Something went wrong: ' . $th->getMessage(), 404);
         }
     }
-
-
-
-
 }
